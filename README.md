@@ -108,23 +108,13 @@ Cyber-Reachability-Sentinel/
 
 ---
 
-## ▶️ How to Run
 
-1. Clone the repository
-
-```bash
-git clone https://github.com/your-username/cyber-reachability-sentinel.git
-```
-
-2. Open `index.html` in browser
-
-👉 No installation required
 
 ---
 
 ## 🌐 Live Demo (Optional)
 
-Add your Vercel/Netlify link here
+https://cyber-reachability-sentinel.vercel.app/
 
 ---
 
