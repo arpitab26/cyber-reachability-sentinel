@@ -1,213 +1,149 @@
-# Cyber-Reachability-Sentinel
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cyber-Reachability Sentinel</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', monospace;
-        }
-        .card {
-            background-color: #141414;
-            border: 1px solid #00ff41;
-            border-radius: 4px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
-        }
-        input {
-            background-color: #000;
-            border: 1px solid #00ff41;
-            color: #00ff41;
-            padding: 8px;
-            border-radius: 4px;
-            outline: none;
-        }
-        button {
-            border: 1px solid #00ff41;
-            padding: 8px 16px;
-            transition: 0.3s;
-        }
-        button:hover {
-            background-color: #00ff41;
-            color: black;
-        }
-        .stat-val {
-            color: white;
-            text-shadow: 0 0 5px #00ff41;
-        }
-    </style>
-</head>
-<body class="p-8">
-    <div class="max-w-6xl mx-auto space-y-8">
-        <div class="text-center">
-            <h1 class="text-4xl font-bold tracking-widest uppercase">Cyber-Reachability Sentinel</h1>
-            <p class="text-xs mt-2 text-gray-500">Discrete Math Analysis: Transitive Closure in Network Security</p>
-        </div>
+# 🛡️ Cyber Reachability Sentinel
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="card space-y-4">
-                <h3 class="border-b border-green-900 pb-2">NODE CONFIGURATION</h3>
-                <div class="flex flex-col gap-2">
-                    <input id="nodeIn" type="text" placeholder="Server Name (e.g. WEB_01)">
-                    <button onclick="addNode()">REGISTER SERVER</button>
-                </div>
+### *Transitive Closure Analysis for Network Security using Warshall’s Algorithm*
 
-                <h3 class="border-b border-green-900 pb-2 mt-6">FIREWALL RULE (EDGE)</h3>
-                <div class="flex flex-col gap-2">
-                    <input id="srcIn" type="text" placeholder="Source Server">
-                    <input id="dstIn" type="text" placeholder="Dest Server">
-                    <button onclick="addEdge()">ALLOW TRAFFIC</button>
-                </div>
-            </div>
+---
 
-            <div class="card md:col-span-2 flex flex-col">
-                <h3 class="border-b border-green-900 pb-2">VULNERABILITY SCAN (WARSHALL'S)</h3>
+## 🚀 Overview
 
-                <div class="grid grid-cols-3 gap-4 my-6 text-center">
-                    <div>
-                        <p class="text-xs">TOTAL ASSETS</p>
-                        <p id="nCnt" class="stat-val text-2xl">0</p>
-                    </div>
-                    <div>
-                        <p class="text-xs">ACTIVE ROUTES</p>
-                        <p id="eCnt" class="stat-val text-2xl">0</p>
-                    </div>
-                    <div>
-                        <p class="text-xs">THREAT LEVEL</p>
-                        <p id="threatLevel" class="text-red-500 font-bold">MONITORING</p>
-                    </div>
-                </div>
+**Cyber Reachability Sentinel** is a web-based tool that analyzes network connectivity using concepts from **Discrete Mathematics**.
+It models servers as a **directed graph** and applies **Warshall’s Algorithm** to detect **indirect attack paths** and hidden vulnerabilities.
 
-                <div class="bg-black p-4 border border-green-900 flex-1 overflow-auto">
-                    <pre id="output" class="text-sm">SYSTEM IDLE. AWAITING INPUT...</pre>
-                </div>
+> 💡 *Not just who is connected — but who can eventually be reached.*
 
-                <button onclick="runAnalysis()" class="mt-4 w-full bg-green-900/30">
-                    GENERATE FULL REACHABILITY MAP
-                </button>
-            </div>
-        </div>
-    </div>
+---
 
-    <script>
-        let nodes = [];
-        let edges = [];
+## 🧠 Core Concepts Used
 
-        function addNode() {
-            let v = document.getElementById('nodeIn').value.toUpperCase().trim();
+* 📌 **Graph Theory** (Nodes & Directed Edges)
+* 📌 **Adjacency Matrix Representation**
+* 📌 **Binary Relations**
+* 📌 **Warshall’s Algorithm**
+* 📌 **Transitive Closure**
 
-            if (v && !nodes.includes(v)) {
-                nodes.push(v);
-                document.getElementById('nodeIn').value = "";
-                updateUI();
-            }
-        }
+---
 
-        function addEdge() {
-            let s = document.getElementById('srcIn').value.toUpperCase().trim();
-            let d = document.getElementById('dstIn').value.toUpperCase().trim();
+## ⚙️ How It Works
 
-            if (nodes.includes(s) && nodes.includes(d)) {
-                let alreadyExists = edges.some(edge => edge[0] === s && edge[1] === d);
+1. **Add Servers (Nodes)**
 
-                if (!alreadyExists) {
-                    edges.push([s, d]);
-                }
+   * Example: `WEB_01`, `APP_01`, `DB_01`
 
-                document.getElementById('srcIn').value = "";
-                document.getElementById('dstIn').value = "";
-                updateUI();
-            }
-        }
+2. **Define Connections (Edges)**
 
-        function updateUI() {
-            document.getElementById('nCnt').innerText = nodes.length;
-            document.getElementById('eCnt').innerText = edges.length;
-        }
+   * Example: `WEB_01 → APP_01`
 
-        function runAnalysis() {
-            let n = nodes.length;
+3. **Run Analysis**
 
-            if (n === 0) {
-                document.getElementById('output').innerText = "NO SERVERS REGISTERED.";
-                return;
-            }
+   * Click: **Generate Full Reachability Map**
 
-            let m = Array.from({ length: n }, () => Array(n).fill(0));
-            let map = {};
+4. **Output Generated**
 
-            nodes.forEach((v, i) => {
-                map[v] = i;
-                m[i][i] = 1; // self reachability
-            });
+   * ✔ Direct + Indirect reachability
+   * ✔ Attack paths
+   * ✔ Reachability matrix
+   * ✔ Threat level
 
-            edges.forEach(([src, dst]) => {
-                m[map[src]][map[dst]] = 1;
-            });
+---
 
-            // Warshall's Algorithm
-            for (let k = 0; k < n; k++) {
-                for (let i = 0; i < n; i++) {
-                    for (let j = 0; j < n; j++) {
-                        m[i][j] = m[i][j] || (m[i][k] && m[k][j]);
-                    }
-                }
-            }
+## 🔍 Example
 
-            let totalReachableRoutes = 0;
-            for (let i = 0; i < n; i++) {
-                for (let j = 0; j < n; j++) {
-                    if (i !== j && m[i][j]) {
-                        totalReachableRoutes++;
-                    }
-                }
-            }
+### Input:
 
-            let threat = "MONITORING";
-            if (totalReachableRoutes >= n && totalReachableRoutes < n * 2) {
-                threat = "ELEVATED";
-            }
-            if (totalReachableRoutes >= n * 2) {
-                threat = "CRITICAL";
-            }
+```
+WEB_01 → APP_01  
+APP_01 → DB_01
+```
 
-            document.getElementById('eCnt').innerText = totalReachableRoutes;
-            document.getElementById('threatLevel').innerText = threat;
+### Output:
 
-            let res = "REACHABILITY REPORT:\n";
-            res += "====================\n\n";
+```
+WEB_01 can attack: WEB_01, APP_01, DB_01
+APP_01 can attack: APP_01, DB_01
+DB_01 can attack: DB_01
+```
 
-            for (let i = 0; i < n; i++) {
-                let reachable = [];
-                for (let j = 0; j < n; j++) {
-                    if (m[i][j]) {
-                        reachable.push(nodes[j]);
-                    }
-                }
-                res += nodes[i] + " can attack: " + reachable.join(", ") + "\n";
-            }
+👉 Shows **indirect path**:
+**WEB_01 → APP_01 → DB_01**
 
-            res += "\nADJACENCY / REACHABILITY MATRIX:\n";
-            res += "--------------------------------\n   ";
-            for (let i = 0; i < n; i++) {
-                res += nodes[i].padEnd(8, " ");
-            }
-            res += "\n";
+---
 
-            for (let i = 0; i < n; i++) {
-                res += nodes[i].padEnd(3, " ");
-                for (let j = 0; j < n; j++) {
-                    res += String(m[i][j]).padEnd(8, " ");
-                }
-                res += "\n";
-            }
+## ⚠️ Threat Interpretation
 
-            document.getElementById('output').innerText = res;
-        }
-    </script>
-</body>
-</html>
+| Scenario                | Meaning     |
+| ----------------------- | ----------- |
+| Limited connections     | 🟢 Safe     |
+| Indirect paths present  | 🟡 Elevated |
+| Fully connected (cycle) | 🔴 Critical |
+
+---
+
+## 📊 Features
+
+* ⚡ Real-time reachability analysis
+* 🧮 Automatic adjacency matrix generation
+* 🔁 Transitive closure computation
+* 🚨 Threat level detection
+* 💻 Clean cyber-style UI
+
+---
+
+## 🖥️ Tech Stack
+
+* **HTML**
+* **Tailwind CSS**
+* **JavaScript (Vanilla)**
+
+---
+
+## 📂 Project Structure
+
+```
+Cyber-Reachability-Sentinel/
+│
+├── index.html
+├── README.md
+└── screenshots/
+```
+
+---
+
+## ▶️ How to Run
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/cyber-reachability-sentinel.git
+```
+
+2. Open `index.html` in browser
+
+👉 No installation required
+
+---
+
+## 🌐 Live Demo (Optional)
+
+Add your Vercel/Netlify link here
+
+---
+
+## 🎯 Learning Outcome
+
+This project demonstrates how **Discrete Mathematics** can be applied to:
+
+* Network Security
+* Dependency Analysis
+* Vulnerability Detection
+
+---
+
+## 🧠 Key Insight
+
+> “Warshall’s Algorithm transforms a relation into its transitive closure, revealing all reachable paths in a network.”
+
+---
+
+
+---
+
